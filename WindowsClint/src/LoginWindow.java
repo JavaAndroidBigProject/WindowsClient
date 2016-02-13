@@ -65,9 +65,4 @@ public class LoginWindow extends JFrame {
         lblSigin.setHorizontalAlignment(SwingConstants.RIGHT);
         this.add(lblSigin,BorderLayout.SOUTH);
     }
-
-    public static void main(String[] args){
-        new SigninWindow();
-      //  new LoginWindow();
-    }
 }
