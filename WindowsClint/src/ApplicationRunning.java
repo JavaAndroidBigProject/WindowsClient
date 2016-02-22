@@ -3,6 +3,10 @@
  */
 public class ApplicationRunning {
     public static  void main(String []args){
-        new GameWindow();
+//        new LoginWindow();
+//        new SigninWindow();
+        GameWindow gw = new GameWindow();
+        gw.setVisible(true);
+
     }
 }

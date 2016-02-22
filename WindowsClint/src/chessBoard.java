@@ -8,11 +8,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.Ellipse2D;
 
 /**
  * 棋盘类, 负责棋盘部分以及棋子的重绘
  */
-public class chessBoard extends JPanel implements KeyListener,MouseListener {
+public class ChessBoard extends JPanel implements KeyListener,MouseListener {
 
     public static final int MARGIN = 30;//边距
     public static final int GRID_SPAN = 30;//行距
@@ -20,10 +21,12 @@ public class chessBoard extends JPanel implements KeyListener,MouseListener {
     public static final int COLS = 15; //列数
     public static final int DIAMETER = 30;//棋子直径
     public int [][] chessMatrix;
+    public int redX;
+    public int redY;
 
     Image img; //背景木板
 
-    public  chessBoard(){
+    public ChessBoard(){
         chessMatrix = new int[15][15];
         init();
     }
@@ -32,7 +35,7 @@ public class chessBoard extends JPanel implements KeyListener,MouseListener {
      * 带参数构造函数, 参数为棋子信息的二维数组
      * @param chessMatrix 棋子矩阵
      */
-    public chessBoard(int [][]chessMatrix){
+    public ChessBoard(int[][] chessMatrix){
         this.chessMatrix = chessMatrix;
         init();
     }
@@ -41,14 +44,14 @@ public class chessBoard extends JPanel implements KeyListener,MouseListener {
      * 初始化函数
      */
     private void init(){
-
+        img = Toolkit.getDefaultToolkit().getImage("board.jpg");
     }
 
     /**
      * 画棋盘的函数
      * @param g
      */
-    public  void paintCrid(Graphics g){
+    public  void paintComponent(Graphics g){
         //画棋盘
         super.paintComponent(g);
         int imgWidth = img.getWidth(this);
@@ -58,7 +61,7 @@ public class chessBoard extends JPanel implements KeyListener,MouseListener {
         int fHeight = getHeight();//获取Panel尺寸
 
         int x = (fWidth-imgWidth)/2;
-        int y = (fHeight = imgHeight);//将背景居中放置
+        int y = (fHeight - imgHeight);//将背景居中放置
         g.drawImage(img, x, y, null);
 
         //画横线, 横坐标(边距 --> 边距+列数*列距), 纵坐标(边距+i*列距)
@@ -71,7 +74,62 @@ public class chessBoard extends JPanel implements KeyListener,MouseListener {
         }
 
         //画棋子
+        for(int i =0; i<chessMatrix.length; i++){
+            for(int j =0; j<chessMatrix.length; j++){
+                if(chessMatrix[i][j] != 0){
+                    int xPos = (int)i*GRID_SPAN+MARGIN;
+                    int yPos = (int)j*GRID_SPAN+MARGIN;
+                    if (chessMatrix[i][j] == 1){
+                        RadialGradientPaint paint = new RadialGradientPaint(
+                                xPos-this.DIAMETER/2+25,
+                                yPos-this.DIAMETER/2+10,
+                                20,
+                                new float[]{0f,1f},
+                                new Color[]{Color.WHITE,Color.BLACK});
 
+                        ((Graphics2D) g).setPaint(paint);
+                        //warning 可能有错
+                        ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON );
+                        ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION,RenderingHints.VALUE_ALPHA_INTERPOLATION_DEFAULT);
+                    }
+                    else if(chessMatrix[i][j]==2){
+                        RadialGradientPaint paint = new RadialGradientPaint(
+                                xPos-this.DIAMETER/2+25,
+                                yPos-this.DIAMETER/2+10,
+                                70,
+                                new float[]{0f,1f},
+                                new Color[]{Color.WHITE,Color.BLACK});
+
+                        ((Graphics2D) g).setPaint(paint);
+                        //warning 可能有错
+                        ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON );
+                        ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION,RenderingHints.VALUE_ALPHA_INTERPOLATION_DEFAULT );
+                    }
+
+                    Ellipse2D e = new Ellipse2D.Float(
+                            xPos - this.DIAMETER/2,
+                            yPos - this.DIAMETER/2,
+                            this.DIAMETER,
+                            this.DIAMETER
+                    );
+
+                    ((Graphics2D) g).fill(e);
+
+                    redRect(redX,redY,g);
+                }
+            }
+        }
+
+    }
+
+    public void redRect(int x, int y,Graphics g){
+        g.setColor(Color.red);
+        g.drawRect(
+                x - this.DIAMETER/2,
+                y - this.DIAMETER/2,
+                this.DIAMETER,
+                this.DIAMETER
+        );
     }
 
 
