@@ -200,7 +200,9 @@ public class ChessBoard extends JPanel implements MouseListener,KeyListener {
             case KeyEvent.VK_UP:
                 redY--;break;
             case KeyEvent.VK_SPACE:
-                chessMatrix[redX][redY]=1;break;
+                if (chessMatrix[redX][redY]==0)
+                    chessMatrix[redX][redY]=1;
+                break;
             default:
                 break;
         }

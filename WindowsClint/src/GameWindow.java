@@ -5,6 +5,8 @@ import javax.swing.JTextField;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * Created by zhaokuo on 2016/01/19.
@@ -115,6 +117,7 @@ public class GameWindow extends JFrame{
     }
 
     public void initEvent(){
+        //文本框, 回车事件
         txtchat.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -122,5 +125,38 @@ public class GameWindow extends JFrame{
                 txtchat.setText("");
             }
         });
+
+        //聊天记录框, 改变鼠标指针
+        txtChatHis.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                setCursor(new Cursor(Cursor.TEXT_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+        });
+
+        //悔棋按钮事件, 悔棋
+        btnBack.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        //退出按钮事件
+        btnExit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
     }
+
+
 }

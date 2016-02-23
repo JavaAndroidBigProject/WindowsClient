@@ -22,6 +22,9 @@ public class SigninWindow extends JFrame {
     Box bxBtn = Box.createHorizontalBox();
     Box bxAll = Box.createVerticalBox();
     public SigninWindow(){
+
+        initWigt();
+
         bxUser.add(Box.createHorizontalStrut(50));
         bxUser.add(lblUser);
         bxUser.add(txtUser);
@@ -60,5 +63,13 @@ public class SigninWindow extends JFrame {
         this.setVisible(true);
         this.setResizable(false);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+
+    public void initWigt(){
+        btnOK.setFont(new Font("宋体",1,20));
+        btnCancle.setFont(new Font("宋体", 1, 20));
+        lblNotiE.setForeground(Color.RED);
+        lblNotiP.setForeground(Color.RED);
+        lblNotiU.setForeground(Color.RED);
     }
 }

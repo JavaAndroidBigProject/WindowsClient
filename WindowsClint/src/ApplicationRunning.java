@@ -3,9 +3,9 @@
  */
 public class ApplicationRunning {
     public static  void main(String []args){
-//        new LoginWindow();
+        new LoginWindow();
 //        new SigninWindow();
-        GameWindow gw = new GameWindow();
+       // GameWindow gw = new GameWindow();
         //gw.setVisible(true);
 
     }
