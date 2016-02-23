@@ -25,6 +25,8 @@ public class GameWindow extends JFrame{
         initWidget();
         initLayout();
         initEvent();
+        this.setVisible(true);
+        chessBoard.requestFocus();
     }
 
    //用户信息

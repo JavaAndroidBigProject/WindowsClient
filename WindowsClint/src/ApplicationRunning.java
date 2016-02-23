@@ -6,7 +6,7 @@ public class ApplicationRunning {
 //        new LoginWindow();
 //        new SigninWindow();
         GameWindow gw = new GameWindow();
-        gw.setVisible(true);
+        //gw.setVisible(true);
 
     }
 }

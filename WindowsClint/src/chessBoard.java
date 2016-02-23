@@ -19,7 +19,7 @@ import java.awt.geom.*;
 /**
  * 棋盘类, 负责棋盘部分以及棋子的重绘
  */
-public class ChessBoard extends JPanel implements KeyListener,MouseListener {
+public class ChessBoard extends JPanel implements MouseListener,KeyListener {
 
     public static final int MARGIN = 30;//边距
     public static final int GRID_SPAN = 30;//行距
@@ -36,7 +36,9 @@ public class ChessBoard extends JPanel implements KeyListener,MouseListener {
     public ChessBoard(){
         chessMatrix = new int[15][15];
         chessMatrix[3][3]=2;
+        addKeyListener(this);
         mosemoveListen();
+        addMouseListener(this);
         init();
     }
 
@@ -47,12 +49,14 @@ public class ChessBoard extends JPanel implements KeyListener,MouseListener {
     public ChessBoard(int[][] chessMatrix){
         this.chessMatrix = chessMatrix;
         mosemoveListen();
+        addKeyListener(this);
+        addMouseListener(this);
+        mosemoveListen();
         init();
     }
 
     public void mosemoveListen(){
-        addMouseListener(this);
-        addKeyListener(this);
+
         addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
@@ -62,11 +66,11 @@ public class ChessBoard extends JPanel implements KeyListener,MouseListener {
             @Override
             public void mouseMoved(MouseEvent e) {
                 //x1,y1为网格所以, 将位置转换为网格.
-                int x1 = (e.getX()-MARGIN+GRID_SPAN/2)/GRID_SPAN;
-                int y1 = (e.getY()-MARGIN+GRID_SPAN/2)/GRID_SPAN;
+                int xIndex = (e.getX()-MARGIN+GRID_SPAN/2)/GRID_SPAN;
+                int yIndex = (e.getY()-MARGIN+GRID_SPAN/2)/GRID_SPAN;
 
                 //判断失效位置, 失效,则鼠标为箭头, 否则为手型
-                if (x1 < 0 || x1 > ROWS || y1 < 0 || y1 > COLS || gameOver || findChess(x1, y1)) {
+                if (!isInGrid(xIndex,yIndex)|| gameOver || findChess(xIndex, yIndex)) {
                     setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 } else {
                     setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -158,6 +162,9 @@ public class ChessBoard extends JPanel implements KeyListener,MouseListener {
     }
 
     public void redRect(int x, int y,Graphics g){
+        if(!isInGrid(x,y)){
+            return;
+        }
         g.setColor(Color.red);
         g.drawRect(
                 (x* GRID_SPAN + MARGIN) - this.DIAMETER/2,
@@ -177,12 +184,12 @@ public class ChessBoard extends JPanel implements KeyListener,MouseListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-
+//        System.out.println("KeyTyped");
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-       System.out.println("hhhh");
+//       System.out.println("KeyPressed");
         switch (e.getKeyCode()){
             case KeyEvent.VK_RIGHT:
                 redX++;break;
@@ -195,11 +202,16 @@ public class ChessBoard extends JPanel implements KeyListener,MouseListener {
             case KeyEvent.VK_SPACE:
                 chessMatrix[redX][redY]=1;break;
             default:
-                redX=5;
-                redY=5;
                 break;
         }
-        System.out.print("键盘: " +redX + " " + redY);
+        if(redX>=COLS)
+            redX = COLS-1;
+        if(redY >= ROWS)
+            redY = ROWS-1;
+        if(redX < 0)
+            redX = 0;
+        if(redY <0)
+            redY=0;
         repaint();
     }
 
@@ -215,12 +227,15 @@ public class ChessBoard extends JPanel implements KeyListener,MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
+
+        this.requestFocus();
+
         int xIndex = (e.getX() - MARGIN+GRID_SPAN/2)/GRID_SPAN;
         int yIndex = (e.getY() - MARGIN+GRID_SPAN/2)/GRID_SPAN;
         System.out.println(xIndex + " " + yIndex);
 
         //落在棋盘外面不能下
-        if(xIndex<0 || xIndex > ROWS || yIndex<0 || yIndex>COLS){
+        if(!isInGrid(xIndex,yIndex)){
             return;
         }
 
