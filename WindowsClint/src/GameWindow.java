@@ -3,6 +3,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by zhaokuo on 2016/01/19.
@@ -16,21 +18,23 @@ public class GameWindow extends JFrame{
         int w = (int)dim.getWidth();
         int h = (int)dim.getHeight();
         int width = 850;
-        int hight = 650;
+        int hight = 700;
         this.setBounds((w-width)/2, (h-hight)/2, width, hight);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout(10,10));
         initWidget();
         initLayout();
+        initEvent();
     }
 
    //用户信息
     InformationPanel pnlInfo;
 
-    JScrollPane pnlShowText = new JScrollPane();
+
     JPanel pnlRight = new JPanel();
     Box bxButton = Box.createHorizontalBox();
     Box bxCenter = Box.createVerticalBox();
+    Box bxRight = Box.createVerticalBox();
 
 
 
@@ -54,7 +58,12 @@ public class GameWindow extends JFrame{
         Container contentPane = getContentPane();
         contentPane.add(chessBoard);
         chessBoard.setOpaque(true);
-        txtChatHis.setFocusable(false);
+        txtchat.setFont(new Font("宋体",1,16));
+        btnBack.setFont(new Font("微软雅黑",0,24));
+        btnExit.setFont(new Font("微软雅黑",0,24));
+        txtChatHis.setEditable(false);
+        txtchat.setFocusable(true);
+        txtchat.requestFocus();
     }
 
     /**
@@ -69,36 +78,47 @@ public class GameWindow extends JFrame{
         lbltitle.setFont(new Font("微软雅黑",0,32));
 
         //对话信息
-        pnlShowText.createVerticalScrollBar();
-        pnlShowText.add(txtChatHis);
-        pnlShowText.setViewportView(txtChatHis);
-        pnlShowText.setVisible(true);
         pnlRight.setLayout(new BorderLayout(10,10));
         pnlRight.setPreferredSize(new Dimension(200,0));
         pnlRight.add(txtchat,BorderLayout.SOUTH);
-        pnlRight.add(pnlShowText,BorderLayout.CENTER);
+        pnlRight.add(new JScrollPane(txtChatHis),BorderLayout.CENTER);
+        bxRight.add(Box.createVerticalStrut(30));
+        bxRight.add(pnlRight);
+        bxRight.add(Box.createVerticalStrut(30));
+
 
 
         //按钮
-       // bxButton.add(Box.createHorizontalStrut(getWidth()/2-30));
+        //bxButton.add(Box.createHorizontalStrut(getWidth()/2-100));
+        bxButton.setAlignmentX(CENTER_ALIGNMENT);
         bxButton.add(btnBack);
-        bxButton.add(Box.createHorizontalStrut(10));
+        bxButton.add(Box.createHorizontalStrut(30));
         bxButton.add(btnExit);
         //bxButton.add(Box.createHorizontalStrut(getWidth()/2-30));
 
         //中路
         //bxCenter.add(chessBoard);
-        bxCenter.add(Box.createVerticalStrut(15));
+        //bxCenter.add(Box.createVerticalStrut(15));
+        bxCenter.setAlignmentY(CENTER_ALIGNMENT);
         bxCenter.add(bxButton);
-        bxCenter.add(Box.createVerticalStrut(20));
+        bxCenter.add(Box.createVerticalStrut(30));
 
 
         this.add(lbltitle,BorderLayout.NORTH);
         this.add(pnlInfo, BorderLayout.WEST);
         this.add(chessBoard, BorderLayout.CENTER);
-        this.add(pnlRight,BorderLayout.EAST);
+        //this.add(pnlRight,BorderLayout.EAST);
+        this.add(bxRight,BorderLayout.EAST);
         this.add(bxCenter,BorderLayout.SOUTH);
+    }
 
-
+    public void initEvent(){
+        txtchat.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                txtChatHis.append(txtchat.getText()+"\n");
+                txtchat.setText("");
+            }
+        });
     }
 }
