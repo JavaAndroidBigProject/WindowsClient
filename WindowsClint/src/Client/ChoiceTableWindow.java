@@ -2,6 +2,7 @@ package Client;
 
 import javax.swing.*;
 import java.awt.*;
+import ServerInterface.*;
 
 /**
  * Created by zhaokuo on 2016/2/24.
@@ -20,7 +21,7 @@ public class ChoiceTableWindow extends JFrame {
     final int width = 250;
     final int hight = 400;
 
-    public ChoiceTableWindow(PlayLogic logic, String tableInfoString){
+    public ChoiceTableWindow(PlayLogic logic, ServerInterface.TableInfo[] tableinfos){
         this.logic = logic;
 
         Toolkit tool = Toolkit.getDefaultToolkit();
@@ -37,7 +38,7 @@ public class ChoiceTableWindow extends JFrame {
         lblNew.setFont(new Font("微软雅黑", 0, 30));
         lblNew.setHorizontalAlignment(SwingConstants.CENTER);
 
-        addTable(tableInfoString);
+        addTable(tableinfos);
         this.add(lblTitle,BorderLayout.NORTH);
         this.add(scrollPane);
         this.add(lblNew,BorderLayout.SOUTH);
@@ -46,8 +47,12 @@ public class ChoiceTableWindow extends JFrame {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
-    public void addTable(String tableInfoString){
-        bxContainer.add(new TableInfo(1,logic,true,false));
+    public void addTable(ServerInterface.TableInfo[] tableinfos){
+
+        for(int i = 0; i < tableinfos.length; i++){
+            bxContainer.add(new TableInfo(logic,tableinfos[i]));
+            bxContainer.add(Box.createVerticalStrut(10));
+        }
         scrollPane.setViewportView(bxContainer);
     }
 }

@@ -7,12 +7,11 @@ import java.net.UnknownHostException;
 
 public class ApplicationRunning {
     public static  void main(String []args){
-        new ChoiceTableWindow("jjj");
-//        PlayLogic playLogic;
-//        try {
-//            playLogic = new PlayLogic(InetAddress.getByName("yidea.xyz"),4000);
-//        } catch (UnknownHostException e) {
-//            e.printStackTrace();
-//        }
+        PlayLogic playLogic;
+        try {
+            playLogic = new PlayLogic(InetAddress.getByName("yidea.xyz"),4000);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
     }
 }

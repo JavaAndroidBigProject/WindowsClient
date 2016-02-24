@@ -15,7 +15,7 @@ public class LoginWindow extends JFrame {
      * 运行逻辑对象
      */
     PlayLogic logic;
-
+    RegisterWindow registerWindow = null;
 
     //控件列表
     JLabel lblUser = new JLabel("用户名: ");
@@ -94,8 +94,12 @@ public class LoginWindow extends JFrame {
     public void Login(){
         String username = txtfUser.getText();
         String password = String.valueOf(txtfPsw.getPassword());
-        logic.login(username,password);
+        if(!username.equals("")&& !password.equals(""))
+            logic.login(username,password);
+        else
+            JOptionPane.showMessageDialog(this,"用户名和密码都不能为空!!");
     }
+
 
     /**
      * 事件监听方法
@@ -153,7 +157,8 @@ public class LoginWindow extends JFrame {
             @Override
             public void mousePressed(MouseEvent e) {
                 super.mousePressed(e);
-                new SigninWindow();
+                logic.hideLoginWindow();
+                logic.showRegisterWindow();
             }
 
             @Override

@@ -7,6 +7,8 @@ import ServerInterface.TableInfo;
 import javax.swing.*;
 import java.net.InetAddress;
 
+
+
 public class PlayLogic extends OriginInterface{
 
     /**
@@ -17,15 +19,29 @@ public class PlayLogic extends OriginInterface{
      */
 
     LoginWindow loginWindow = null;
+    ChoiceTableWindow choiceTableWindow = null;
+    RegisterWindow registerWindow = null;
+    GameWindow gameWindow = null;
 
 
     public PlayLogic(InetAddress inetAddress, int port) {
         super(inetAddress, port);
-        loginWindow = new LoginWindow(this);
+        showLoginWindow();
     }
 
+    /**
+     *
+     * @param ifRegistered
+     * 是否注册成功
+     * @param reason 若是注册失败, 则失败的原因
+     */
     @Override
     public void onRespondRegister(boolean ifRegistered, String reason) {
+        if (ifRegistered){
+            JOptionPane.showMessageDialog(registerWindow,"注册成功");
+            showLoginWindow();
+            hideRegisterWindow();
+        }
 
     }
 
@@ -39,6 +55,14 @@ public class PlayLogic extends OriginInterface{
 
     }
 
+    /**
+     *
+     * @param ifLogined
+     * 是否登陆成功
+     * @param score
+     * 玩家的分数
+     * @param reason
+     */
     @Override
     public void onRespondLogin(boolean ifLogined, int score, String reason) {
         System.out.println(ifLogined + "  " + score + " " + reason);
@@ -46,13 +70,22 @@ public class PlayLogic extends OriginInterface{
             JOptionPane.showMessageDialog(loginWindow,"登录失败"+reason);
         }
         else {
-            new ChoiceTableWindow(this,"111");
+            this.getTables();
         }
     }
 
+    /**
+     * 收到桌子信息
+     * @param tableInfos 桌子信息数组
+     */
     @Override
     public void onRespondGetTables(TableInfo[] tableInfos) {
+        loginWindow.setVisible(false);
 
+        if (choiceTableWindow == null)
+            choiceTableWindow = new ChoiceTableWindow(this,tableInfos);
+        else
+            choiceTableWindow.setVisible(true);
     }
 
 
@@ -89,5 +122,36 @@ public class PlayLogic extends OriginInterface{
     @Override
     public void onRespondQuitTable(boolean ifAgree) {
 
+    }
+
+
+    /**
+     * 显示注册窗口
+     */
+    public void showRegisterWindow(){
+        if (registerWindow == null)
+            registerWindow = new RegisterWindow(this);
+        else
+            registerWindow.setVisible(true);
+    }
+
+    /**
+     * 隐藏注册窗口
+     */
+    public void hideRegisterWindow(){
+        if (registerWindow != null)
+            registerWindow.setVisible(false);
+    }
+
+    public void showLoginWindow(){
+        if (loginWindow == null)
+            loginWindow = new LoginWindow(this);
+        else
+            loginWindow.setVisible(true);
+    }
+
+    public void hideLoginWindow(){
+        if (loginWindow != null)
+            loginWindow.setVisible(false);
     }
 }

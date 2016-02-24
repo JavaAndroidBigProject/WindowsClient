@@ -1,5 +1,6 @@
 package Client;
 
+import ServerInterface.PlayerInfo;
 import com.sun.prism.shader.DrawEllipse_Color_Loader;
 
 import javax.swing.*;
@@ -17,21 +18,23 @@ public class TableInfo extends JPanel {
      */
     PlayLogic logic;
 
-    boolean whiteExists = false;
-    boolean blackExists = false;
+    PlayerInfo whitePlayer;
+    PlayerInfo blackPlayer;
     int tableNum;
     JButton btnEnter = new JButton("进入");
+    final int DIAME = 40;
 
-    public TableInfo(int tableNum,PlayLogic logic,boolean whiteExit, boolean blackExit) {
+    public TableInfo(PlayLogic logic,ServerInterface.TableInfo tableInfo) {
         this.logic = logic;
-        this.whiteExists = whiteExit;
-        this.blackExists = blackExit;
-        this.tableNum = tableNum;
-        this.setPreferredSize(new Dimension(205,60));
-        this.setBackground(Color.cyan);
+        this.tableNum = tableInfo.id;
+        this.whitePlayer = tableInfo.player1;
+        this.blackPlayer = tableInfo.player2;
+
+        this.setPreferredSize(new Dimension(205,80));
+        this.setBackground(Color.lightGray);
         this.setLayout(null);
         btnEnter.setFont(new Font("微软雅黑", 0, 16));
-        btnEnter.setLocation(125,5);
+        btnEnter.setLocation(125,15);
         btnEnter.setSize(80,50);
         btnEnter.addActionListener(new ActionListener() {
             @Override
@@ -45,18 +48,35 @@ public class TableInfo extends JPanel {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        if(whiteExists){
+        if(whitePlayer.score != -1){
             g.setColor(Color.WHITE);
-            Ellipse2D e = new Ellipse2D.Float(5,5,50,50);
+            Ellipse2D e = new Ellipse2D.Float(5,5,DIAME,DIAME);
             ((Graphics2D) g).fill(e);
+
+            g.setColor(Color.BLUE);
+            g.drawString(whitePlayer.name,5,60);
+            g.drawString("积分:"+String.valueOf(whitePlayer.score),5,75);
+        }else {
+            g.setColor(Color.BLUE);
+            g.drawString("座位空",5,60);
         }
-        if(blackExists){
+        if(blackPlayer.score != -1){
             g.setColor(Color.black);
-            Ellipse2D e = new Ellipse2D.Float(65,5,50,50);
+            Ellipse2D e = new Ellipse2D.Float(65,5,DIAME,DIAME);
             ((Graphics2D) g).fill(e);
+            g.setColor(Color.BLUE);
+
+            g.drawString(blackPlayer.name,65,60);
+            g.drawString("积分:"+String.valueOf(blackPlayer.score),65,75);
         }
+        else {
+            g.setColor(Color.BLUE);
+            g.drawString("座位空",65,60);
+        }
+
         g.setColor(Color.red);
-        g.drawRect(5,5,50,50);
-        g.drawRect(65,5,50,50);
+        g.drawRect(5,5,DIAME,DIAME);
+        g.drawRect(65,5,DIAME,DIAME);
+
     }
 }

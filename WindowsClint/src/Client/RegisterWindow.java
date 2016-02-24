@@ -2,11 +2,21 @@ package Client;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by zhaokuo on 2016/01/18.
  */
-public class SigninWindow extends JFrame {
+public class RegisterWindow extends JFrame {
+
+    /**
+     * 程序运行逻辑对象
+     */
+    PlayLogic logic;
+
     JLabel lblEmail =  new JLabel("邮    箱: ");
     JLabel lblUser =  new JLabel("用户名: ");
     JLabel lblPsw =  new JLabel("密    码: ");
@@ -23,8 +33,12 @@ public class SigninWindow extends JFrame {
     Box bxPsw = Box.createHorizontalBox();
     Box bxBtn = Box.createHorizontalBox();
     Box bxAll = Box.createVerticalBox();
-    public SigninWindow(){
 
+    final int width = 300;
+    final int high = 300;
+    public RegisterWindow(PlayLogic logic){
+
+        this.logic  = logic;
         initWigt();
 
         bxUser.add(Box.createHorizontalStrut(50));
@@ -61,7 +75,10 @@ public class SigninWindow extends JFrame {
         Dimension dim = tool.getScreenSize();
         int w = (int)dim.getWidth();
         int h = (int)dim.getHeight();
-        this.setBounds((w-300)/2,(h-300)/2,300,300);
+        this.setBounds((w-width)/2,(h-high)/2,width,high);
+
+        buttonListen();
+
         this.setVisible(true);
         this.setResizable(false);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -73,5 +90,38 @@ public class SigninWindow extends JFrame {
         lblNotiE.setForeground(Color.RED);
         lblNotiP.setForeground(Color.RED);
         lblNotiU.setForeground(Color.RED);
+    }
+
+    /**
+     * 按钮添加事件监听
+     */
+    public void buttonListen(){
+        btnCancle.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                logic.hideRegisterWindow();
+                logic.showLoginWindow();
+            }
+        });
+
+        btnOK.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(txtEmail.getText().equals("") || txtUser.getText().equals("") || txtPsw.getText().equals(""))
+                    JOptionPane.showMessageDialog(btnOK, "所有信息都是必要的, 请重新输入!");
+                else if(!validEmail(txtEmail.getText()))
+                    JOptionPane.showMessageDialog(btnOK, "请输入正确的邮箱地址");
+                else{
+                    logic.register(txtUser.getText(), txtPsw.getText());
+                }
+            }
+        });
+    }
+
+    private boolean validEmail(String email){
+        String reg = "\\w{3,}@\\w+(.\\w+){1,2}";
+        Pattern pattern = Pattern.compile(reg);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 }
