@@ -1,4 +1,4 @@
-import javafx.application.Application;
+package Client;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +8,15 @@ import java.awt.event.MouseEvent;
 /**
  * Created by zhaokuo on 2016/01/17.
  */
+
+
 public class LoginWindow extends JFrame {
+    /**
+     * 运行逻辑对象
+     */
+    PlayLogic logic;
+
+
     //控件列表
     JLabel lblUser = new JLabel("用户名: ");
     JLabel lblPsw = new JLabel("密    码: ");
@@ -23,17 +31,21 @@ public class LoginWindow extends JFrame {
     Box bxBtn = Box.createHorizontalBox();
     Box bxAll = Box.createVerticalBox();
 
+    final int width = 300;
+    final int hight = 250;
+
     /**
      * 构造函数,画出图形.
      */
-    public LoginWindow(){
+    public LoginWindow(PlayLogic logic){
         //初始化项目
         super("登录");
+        this.logic = logic;
         Toolkit tool = Toolkit.getDefaultToolkit();
         Dimension dim = tool.getScreenSize();
         int w = (int)dim.getWidth();
         int h = (int)dim.getHeight();
-        this.setBounds(w/2-250,h/2-150,300,250);
+        this.setBounds((w-width)/2,(h-hight)/2,width,hight);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //设置属性
@@ -80,11 +92,9 @@ public class LoginWindow extends JFrame {
      * 用户登录
      */
     public void Login(){
-        new GameWindow();
-    }
-
-    public void Exit(){
-
+        String username = txtfUser.getText();
+        String password = String.valueOf(txtfPsw.getPassword());
+        logic.login(username,password);
     }
 
     /**
@@ -96,7 +106,7 @@ public class LoginWindow extends JFrame {
             @Override
             public void mousePressed(MouseEvent e) {
                 super.mousePressed(e);
-                Exit();
+                System.exit(0);
             }
 
             @Override

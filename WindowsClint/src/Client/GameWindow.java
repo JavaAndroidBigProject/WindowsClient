@@ -1,3 +1,5 @@
+package Client;
+
 import javax.swing.*;
 import javax.swing.JButton;
 import javax.swing.JLabel;
