@@ -52,6 +52,7 @@ public class GameWindow extends JFrame{
         this.board = board;
         this.isBlack = isBlack;
         this.isMyTurn = isMyTurn;
+        pnlInfo.updateInfo(isBlack,isMyTurn,myInfo,opponentInfo);
         chessBoard.updateBoard(board,isBlack,isPlaying,isMyTurn);
     }
 
@@ -123,6 +124,7 @@ public class GameWindow extends JFrame{
     public void initLayout(){
 
         pnlInfo = new InformationPanel();
+        pnlInfo.updateInfo(isBlack,isMyTurn,myInfo,opponentInfo);
 
         //标题
         lbltitle.setHorizontalAlignment(SwingConstants.CENTER);
