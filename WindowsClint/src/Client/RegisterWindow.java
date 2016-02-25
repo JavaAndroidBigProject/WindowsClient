@@ -99,8 +99,8 @@ public class RegisterWindow extends JFrame {
         btnCancle.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                logic.hideWindow(logic.registerWindow);
-                logic.showWindow(logic.loginWindow);
+                logic.hideRegisterWindow();
+                logic.showLoginWindow();
             }
         });
 

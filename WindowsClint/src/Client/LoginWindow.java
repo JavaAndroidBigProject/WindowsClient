@@ -157,8 +157,8 @@ public class LoginWindow extends JFrame {
             @Override
             public void mousePressed(MouseEvent e) {
                 super.mousePressed(e);
-                logic.hideWindow(logic.loginWindow);
-                logic.showWindow(logic.registerWindow);
+                logic.hideLoginWindow();
+                logic.showRegisterWindow();
             }
 
             @Override
