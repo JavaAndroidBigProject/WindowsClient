@@ -1,5 +1,7 @@
 package Client;
 
+import ServerInterface.PlayerInfo;
+
 import javax.swing.*;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -15,8 +17,47 @@ import java.awt.event.MouseEvent;
  */
 public class GameWindow extends JFrame{
 
-    public GameWindow(){
+    /**
+     * 游戏运行逻辑
+     */
+    PlayLogic logic;
+
+    PlayerInfo myInfo = null;
+    PlayerInfo opponentInfo = null;
+    boolean ifMyHandUp = false;
+    boolean ifOpponentHandUp = false;
+    boolean isPlaying = false;
+    int[][] board = null;
+    boolean isBlack = false;
+    boolean isMyTurn = false;
+
+    /**
+     * 棋盘信息
+     * @param myInfo                我的信息
+     * @param opponentInfo          对方信息
+     * @param ifMyHandUp            我是否举手
+     * @param ifOpponentHandUp      对方是否举手
+     * @param isPlaying             游戏是否正在执行
+     * @param board                 15*15的棋盘
+     * @param isBlack               我是否为黑色
+     * @param isMyTurn              是否轮到我下子
+     */
+
+    public void resetInfo(PlayerInfo myInfo,PlayerInfo opponentInfo, boolean ifMyHandUp, boolean ifOpponentHandUp, boolean isPlaying, int[][] board, boolean isBlack, boolean isMyTurn){
+        this.myInfo = myInfo;
+        this.opponentInfo = opponentInfo;
+        this.ifMyHandUp = ifMyHandUp;
+        this.ifOpponentHandUp = ifOpponentHandUp;
+        this.isPlaying = isPlaying;
+        this.board = board;
+        this.isBlack = isBlack;
+        this.isMyTurn = isMyTurn;
+        chessBoard.updateBoard(board,isBlack,isPlaying,isMyTurn);
+    }
+
+    public GameWindow(PlayLogic logic){
         super("游戏室");
+        this.logic = logic;
         Toolkit tool = Toolkit.getDefaultToolkit();
         Dimension dim = tool.getScreenSize();
         int w = (int)dim.getWidth();
@@ -53,6 +94,8 @@ public class GameWindow extends JFrame{
     JTextArea txtChatHis = new JTextArea();
 
     //按钮
+    JButton btnGiveUp = new JButton("认输");
+    JButton btnHandUp = new JButton("举手");
     JButton btnBack = new JButton("悔棋");
     JButton btnExit = new JButton("退出");
 
@@ -60,13 +103,15 @@ public class GameWindow extends JFrame{
      * 对控件进行初始化
      */
     private void initWidget(){
-        chessBoard = new ChessBoard();
+        chessBoard = new ChessBoard(logic);
         Container contentPane = getContentPane();
         contentPane.add(chessBoard);
         chessBoard.setOpaque(true);
         txtchat.setFont(new Font("宋体",1,16));
         btnBack.setFont(new Font("微软雅黑",0,24));
         btnExit.setFont(new Font("微软雅黑",0,24));
+        btnGiveUp.setFont(new Font("微软雅黑",0,24));
+        btnHandUp.setFont(new Font("微软雅黑",0,24));
         txtChatHis.setEditable(false);
         txtchat.setFocusable(true);
         txtchat.requestFocus();
@@ -97,6 +142,10 @@ public class GameWindow extends JFrame{
         //按钮
         //bxButton.add(Box.createHorizontalStrut(getWidth()/2-100));
         bxButton.setAlignmentX(CENTER_ALIGNMENT);
+        bxButton.add(btnHandUp);
+        bxButton.add(Box.createHorizontalStrut(30));
+        bxButton.add(btnGiveUp);
+        bxButton.add(Box.createHorizontalStrut(30));
         bxButton.add(btnBack);
         bxButton.add(Box.createHorizontalStrut(30));
         bxButton.add(btnExit);
@@ -123,8 +172,14 @@ public class GameWindow extends JFrame{
         txtchat.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                txtChatHis.append(txtchat.getText()+"\n");
-                txtchat.setText("");
+                if (txtchat.getText().contains("#")){
+                    txtChatHis.append("[提示] 字符串中不能包含 # 符号");
+                }
+                else{
+                    txtChatHis.append(txtchat.getText()+"\n");
+                    txtchat.setText("");
+                    logic.sengMessage(txtchat.getText());
+                }
             }
         });
 
@@ -143,19 +198,49 @@ public class GameWindow extends JFrame{
             }
         });
 
-        //悔棋按钮事件, 悔棋
+        /**
+         * 悔棋按钮事件, 悔棋
+         */
         btnBack.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                txtChatHis.append("发送请求悔棋, 正在等待对方响应....\n");
+                logic.retract();
             }
         });
 
-        //退出按钮事件
+        /**
+         * 退出按钮事件
+         */
         btnExit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (JOptionPane.showConfirmDialog(btnExit,"是否退出当前桌子","确认",JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION){
+                    logic.quitTable();
+                    dispose();
+                    logic.showChoiceTableWindow();
+                }
+            }
+        });
 
+        /**
+         * 举手按钮事件
+         */
+        btnHandUp.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                txtChatHis.append("[我] 举手....\n");
+                logic.handUp();
+            }
+        });
+
+        /**
+         * 放弃, 认输  按钮事件
+         */
+        btnGiveUp.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                logic.giveUp();
             }
         });
     }

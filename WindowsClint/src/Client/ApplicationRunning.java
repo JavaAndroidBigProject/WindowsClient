@@ -10,6 +10,7 @@ public class ApplicationRunning {
         PlayLogic playLogic;
         try {
             playLogic = new PlayLogic(InetAddress.getByName("yidea.xyz"),4000);
+            //playLogic = new PlayLogic(InetAddress.getByName("10.95.68.251"),4000);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }

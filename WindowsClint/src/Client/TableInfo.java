@@ -40,7 +40,7 @@ public class TableInfo extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 logic.enterTable(tableNum);
-            }
+        }
         });
         this.add(btnEnter);
     }

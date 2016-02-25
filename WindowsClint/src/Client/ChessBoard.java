@@ -26,16 +26,21 @@ public class ChessBoard extends JPanel implements MouseListener,KeyListener {
     public static final int ROWS = 15; //行数
     public static final int COLS = 15; //列数
     public static final int DIAMETER = 30;//棋子直径
-    public int [][] chessMatrix;
+
+    private int [][] chessMatrix;
+    private boolean isBlack= false;
+    PlayLogic logic;
+    private boolean isPlaying;
+    private boolean isMyturn;
+
     public int redX=0;
     public int redY=0;
 
     Image img; //背景木板
     boolean gameOver = false;
 
-    public ChessBoard(){
+    public ChessBoard(PlayLogic logic){
         chessMatrix = new int[15][15];
-        chessMatrix[3][3]=2;
         addKeyListener(this);
         mosemoveListen();
         addMouseListener(this);
@@ -46,7 +51,7 @@ public class ChessBoard extends JPanel implements MouseListener,KeyListener {
      * 带参数构造函数, 参数为棋子信息的二维数组
      * @param chessMatrix 棋子矩阵
      */
-    public ChessBoard(int[][] chessMatrix){
+    public ChessBoard(int[][] chessMatrix,PlayLogic logic){
         this.chessMatrix = chessMatrix;
         mosemoveListen();
         addKeyListener(this);
@@ -84,6 +89,21 @@ public class ChessBoard extends JPanel implements MouseListener,KeyListener {
      */
     private void init(){
         img = Toolkit.getDefaultToolkit().getImage("board.jpg");
+    }
+
+    /**
+     * 更新棋盘信息
+     * @param board
+     * @param isBlack
+     * @param isPlaying
+     * @param isMyturn
+     */
+    public void updateBoard(int[][] board,boolean isBlack, boolean isPlaying, boolean isMyturn){
+        this.chessMatrix = board;
+        this.isBlack = isBlack;
+        this.isPlaying = isPlaying;
+        this.isMyturn = isMyturn;
+        repaint();
     }
 
     /**
@@ -200,8 +220,10 @@ public class ChessBoard extends JPanel implements MouseListener,KeyListener {
             case KeyEvent.VK_UP:
                 redY--;break;
             case KeyEvent.VK_SPACE:
-                if (chessMatrix[redX][redY]==0)
-                    chessMatrix[redX][redY]=1;
+                if (chessMatrix[redX][redY]==0 && isPlaying && isMyturn){
+                    chessMatrix[redX][redY] = isBlack?2:1;
+                    logic.move(redX,redY);
+                }
                 break;
             default:
                 break;
@@ -246,8 +268,14 @@ public class ChessBoard extends JPanel implements MouseListener,KeyListener {
             return ;
         }
 
+        //没有轮到自己下子
+        if (!isPlaying || !isMyturn){
+            return;
+        }
+
         //其他位置有效
-        chessMatrix[xIndex][yIndex]=1;
+        chessMatrix[xIndex][yIndex] = isBlack?2:1;
+        logic.move(xIndex,yIndex);
         redX = xIndex;
         redY = yIndex;
         repaint();

@@ -12,6 +12,7 @@ public class ChoiceTableWindow extends JFrame {
      * 运行逻辑对象
      */
     PlayLogic logic;
+    ServerInterface.TableInfo[] tableInfos;
 
     Box bxContainer = Box.createVerticalBox();
     JScrollPane scrollPane = new JScrollPane();
@@ -21,8 +22,13 @@ public class ChoiceTableWindow extends JFrame {
     final int width = 250;
     final int hight = 400;
 
-    public ChoiceTableWindow(PlayLogic logic, ServerInterface.TableInfo[] tableinfos){
+    public ChoiceTableWindow(PlayLogic logic){
         this.logic = logic;
+
+        /**
+         * 获取桌子消息
+         */
+        this.tableInfos = logic.getTable();
 
         Toolkit tool = Toolkit.getDefaultToolkit();
         Dimension dim = tool.getScreenSize();
@@ -38,7 +44,8 @@ public class ChoiceTableWindow extends JFrame {
         lblNew.setFont(new Font("微软雅黑", 0, 30));
         lblNew.setHorizontalAlignment(SwingConstants.CENTER);
 
-        addTable(tableinfos);
+        addTable(tableInfos);
+
         this.add(lblTitle,BorderLayout.NORTH);
         this.add(scrollPane);
         this.add(lblNew,BorderLayout.SOUTH);
@@ -50,6 +57,7 @@ public class ChoiceTableWindow extends JFrame {
     public void addTable(ServerInterface.TableInfo[] tableinfos){
 
         for(int i = 0; i < tableinfos.length; i++){
+            System.out.println(tableinfos[i].id + "--" + tableinfos[i].player1.name +":"+ tableinfos[i].player2.name);
             bxContainer.add(new TableInfo(logic,tableinfos[i]));
             bxContainer.add(Box.createVerticalStrut(10));
         }
