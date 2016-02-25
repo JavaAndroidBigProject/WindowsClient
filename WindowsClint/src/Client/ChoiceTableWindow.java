@@ -23,6 +23,7 @@ public class ChoiceTableWindow extends JFrame {
 
     public ChoiceTableWindow(PlayLogic logic, ServerInterface.TableInfo[] tableinfos){
         this.logic = logic;
+        newTableListener();
 
         Toolkit tool = Toolkit.getDefaultToolkit();
         Dimension dim = tool.getScreenSize();
@@ -54,5 +55,9 @@ public class ChoiceTableWindow extends JFrame {
             bxContainer.add(Box.createVerticalStrut(10));
         }
         scrollPane.setViewportView(bxContainer);
+    }
+
+    public void newTableListener(){
+
     }
 }

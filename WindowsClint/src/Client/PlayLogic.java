@@ -5,6 +5,7 @@ import ServerInterface.*;
 import ServerInterface.TableInfo;
 
 import javax.swing.*;
+import java.awt.*;
 import java.net.InetAddress;
 
 
@@ -26,7 +27,7 @@ public class PlayLogic extends OriginInterface{
 
     public PlayLogic(InetAddress inetAddress, int port) {
         super(inetAddress, port);
-        showLoginWindow();
+        showWindow(loginWindow);
     }
 
     /**
@@ -39,8 +40,8 @@ public class PlayLogic extends OriginInterface{
     public void onRespondRegister(boolean ifRegistered, String reason) {
         if (ifRegistered){
             JOptionPane.showMessageDialog(registerWindow,"注册成功");
-            showLoginWindow();
-            hideRegisterWindow();
+            showWindow(loginWindow);
+            hideWindow(registerWindow);
         }
 
     }
@@ -126,32 +127,22 @@ public class PlayLogic extends OriginInterface{
 
 
     /**
-     * 显示注册窗口
+     * 显示窗口
      */
-    public void showRegisterWindow(){
-        if (registerWindow == null)
-            registerWindow = new RegisterWindow(this);
+    public void showWindow(Component window){
+        if (window == null) {
+        }
         else
-            registerWindow.setVisible(true);
+            window.setVisible(true);
     }
 
     /**
-     * 隐藏注册窗口
+     * 隐藏窗口
      */
-    public void hideRegisterWindow(){
-        if (registerWindow != null)
-            registerWindow.setVisible(false);
+    public void hideWindow(Component window){
+        if (window != null)
+            window.setVisible(false);
     }
 
-    public void showLoginWindow(){
-        if (loginWindow == null)
-            loginWindow = new LoginWindow(this);
-        else
-            loginWindow.setVisible(true);
-    }
 
-    public void hideLoginWindow(){
-        if (loginWindow != null)
-            loginWindow.setVisible(false);
-    }
 }
