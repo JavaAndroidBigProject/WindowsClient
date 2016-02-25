@@ -40,6 +40,7 @@ public class ChessBoard extends JPanel implements MouseListener,KeyListener {
     boolean gameOver = false;
 
     public ChessBoard(PlayLogic logic){
+        this.logic = logic;
         chessMatrix = new int[15][15];
         addKeyListener(this);
         mosemoveListen();
@@ -52,12 +53,14 @@ public class ChessBoard extends JPanel implements MouseListener,KeyListener {
      * @param chessMatrix 棋子矩阵
      */
     public ChessBoard(int[][] chessMatrix,PlayLogic logic){
+        this.logic = logic;
         this.chessMatrix = chessMatrix;
         mosemoveListen();
         addKeyListener(this);
         addMouseListener(this);
         mosemoveListen();
         init();
+        repaint();
     }
 
     public void mosemoveListen(){
@@ -221,7 +224,8 @@ public class ChessBoard extends JPanel implements MouseListener,KeyListener {
                 redY--;break;
             case KeyEvent.VK_SPACE:
                 if (chessMatrix[redX][redY]==0 && isPlaying && isMyturn){
-                    chessMatrix[redX][redY] = isBlack?2:1;
+                    chessMatrix[redX][redY] = isBlack?1:2;
+                    repaint();
                     logic.move(redX,redY);
                 }
                 break;
@@ -256,7 +260,7 @@ public class ChessBoard extends JPanel implements MouseListener,KeyListener {
 
         int xIndex = (e.getX() - MARGIN+GRID_SPAN/2)/GRID_SPAN;
         int yIndex = (e.getY() - MARGIN+GRID_SPAN/2)/GRID_SPAN;
-        System.out.println(xIndex + " " + yIndex);
+        //System.out.println(xIndex + " " + yIndex);
 
         //落在棋盘外面不能下
         if(!isInGrid(xIndex,yIndex)){
@@ -268,18 +272,54 @@ public class ChessBoard extends JPanel implements MouseListener,KeyListener {
             return ;
         }
 
-        //没有轮到自己下子
-        if (!isPlaying || !isMyturn){
-            return;
-        }
+//        //没有轮到自己下子
+//        if (!isPlaying || !isMyturn){
+//            return;
+//        }
 
         //其他位置有效
-        chessMatrix[xIndex][yIndex] = isBlack?2:1;
+        chessMatrix[xIndex][yIndex] = isBlack?1:2;
+        //paintChess(xIndex,yIndex,Color.black);
         logic.move(xIndex,yIndex);
+        //System.out.println("hhh" + xIndex + " " +yIndex);
         redX = xIndex;
         redY = yIndex;
         repaint();
     }
+
+//    /**
+//     * 在本地先画棋子
+//     * @param x x索引
+//     * @param y y索引
+//     * @param c 颜色
+//     */
+//    public void paintChess( int x, int y , Color c){
+//        Graphics g = this.getComponentGraphics(this.getGraphics());
+//        System.out.println("P:" + x + " " + y);
+//        System.out.println(g);
+//
+//        x = x*GRID_SPAN+MARGIN;
+//        y = y*GRID_SPAN+MARGIN;
+//
+//        RadialGradientPaint paint = new RadialGradientPaint(
+//                x-this.DIAMETER/2+25,
+//                y-this.DIAMETER/2+10,
+//                70,
+//                new float[]{0f,1f},
+//                new Color[]{Color.WHITE,Color.BLACK});
+//
+//        ((Graphics2D) g).setPaint(paint);
+//        ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON );
+//        ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION,RenderingHints.VALUE_ALPHA_INTERPOLATION_DEFAULT );
+//
+//        Ellipse2D e = new Ellipse2D.Float(
+//                x - this.DIAMETER/2,
+//                y - this.DIAMETER/2,
+//                this.DIAMETER-2,
+//                this.DIAMETER-2
+//        );
+//        ((Graphics2D) g).fill(e);
+//    }
 
     @Override
     public void mouseReleased(MouseEvent e) {

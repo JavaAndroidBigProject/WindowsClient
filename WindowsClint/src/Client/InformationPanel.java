@@ -3,7 +3,6 @@ package Client;
 import ServerInterface.PlayerInfo;
 
 import javax.swing.*;
-import javax.xml.stream.Location;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
@@ -12,18 +11,18 @@ import java.awt.geom.Ellipse2D;
  */
 public class InformationPanel extends JPanel {
     //对手
-    JLabel lblmatchId = new JLabel("ID:");
-    JLabel lblmatchColor = new JLabel("  ");
-    JLabel lblmatchRun = new JLabel(" O ");
-    Point lctMatchColor;
-    Point lctMatchRun;
+    JLabel lblmatchId = new JLabel("对方:");
+    JLabel lblmatchScore = new JLabel("");
+
+    Point lctMatchColor = new Point(40,90);
+    Point lctMatchRun = new Point(40,120);
 
     //自己
-    JLabel lblmyId = new JLabel("ID");
-    JLabel lblmyColor = new JLabel("  ");
-    JLabel lblmyRun = new JLabel(" O ");
-    Point lctMyColor;
-    Point lctMyRun;
+    JLabel lblmyId = new JLabel("宝宝:");
+    JLabel lblmyScore = new JLabel("是");
+    //JLabel lblmyRun = new JLabel(" O ");
+    Point lctMyColor = new Point(40,350);
+    Point lctMyRun = new Point(40,380) ;
 
     Box bxContainer = Box.createVerticalBox();
     final int DIAME = 20;
@@ -60,24 +59,21 @@ public class InformationPanel extends JPanel {
         //对手
         bxContainer.add(lblmatchId);
         bxContainer.add(Box.createVerticalStrut(15));
-        bxContainer.add(lblmatchColor);
+        bxContainer.add(lblmatchScore);
         bxContainer.add(Box.createVerticalStrut(15));
-        bxContainer.add(lblmatchRun);
+        //bxContainer.add(lblmatchRun);
         bxContainer.add(Box.createVerticalStrut(200));
         //自己
         bxContainer.add(lblmyId);
         bxContainer.add(Box.createVerticalStrut(15));
-        bxContainer.add(lblmyColor);
+        bxContainer.add(lblmyScore);
         bxContainer.add(Box.createVerticalStrut(15));
-        bxContainer.add(lblmyRun);
+//        bxContainer.add(lblmyRun);
         bxContainer.add(Box.createVerticalStrut(30));
 
-        this.add(bxContainer);
+        System.out.println(lctMatchColor.getX());
 
-        lctMatchColor = lblmatchColor.getLocation();
-        lctMatchRun = lblmatchRun.getLocation();
-        lctMyColor = lblmyColor.getLocation();
-        lctMyRun = lblmyRun.getLocation();
+        this.add(bxContainer);
     }
 
     @Override
@@ -90,7 +86,7 @@ public class InformationPanel extends JPanel {
 
         //画棋子颜色
         if(isBlack){
-            //lblmatchColor.setBackground(Color.white);
+            //lblmatchScore.setBackground(Color.white);
             g.setColor(Color.white);
             Ellipse2D e = new Ellipse2D.Float((float)lctMatchColor.getX(),(float)lctMatchColor.getY(),DIAME,DIAME);
             ((Graphics2D) g).fill(e);
@@ -100,7 +96,7 @@ public class InformationPanel extends JPanel {
             ((Graphics2D) g).fill(e);
         }
         else{
-            //lblmatchColor.setBackground(Color.white);
+            //lblmatchScore.setBackground(Color.white);
             g.setColor(Color.black);
             Ellipse2D e = new Ellipse2D.Float((float)lctMatchColor.getX(),(float)lctMatchColor.getY(),DIAME,DIAME);
             ((Graphics2D) g).fill(e);

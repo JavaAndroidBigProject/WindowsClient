@@ -176,6 +176,10 @@ public class PlayLogic extends OriginInterface{
             str.append("我输了...");
         }
 
+        JOptionPane.showMessageDialog(gameWindow,str);
+        this.quitTable();
+        gameWindow.dispose();
+        showChoiceTableWindow();
     }
 
     /**
