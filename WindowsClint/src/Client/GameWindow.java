@@ -179,8 +179,8 @@ public class GameWindow extends JFrame{
                 }
                 else{
                     txtChatHis.append(txtchat.getText()+"\n");
-                    txtchat.setText("");
                     logic.sengMessage(txtchat.getText());
+                    txtchat.setText("");
                 }
             }
         });

@@ -79,10 +79,16 @@ public class InformationPanel extends JPanel {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        if(matchInfo != null)
+        if(matchInfo != null){
             lblmatchId.setText("对方: " + matchInfo.name);
-        if (myInfo != null)
+            lblmatchScore.setText(String.valueOf(matchInfo.score));
+        }
+
+        if (myInfo != null){
             lblmyId.setText("宝宝: " + myInfo.name);
+            lblmyScore.setText(String.valueOf(matchInfo.score));
+        }
+
 
         //画棋子颜色
         if(isBlack){
