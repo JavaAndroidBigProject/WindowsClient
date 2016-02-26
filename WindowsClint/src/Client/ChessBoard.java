@@ -272,10 +272,10 @@ public class ChessBoard extends JPanel implements MouseListener,KeyListener {
             return ;
         }
 
-//        //没有轮到自己下子
-//        if (!isPlaying || !isMyturn){
-//            return;
-//        }
+        //没有轮到自己下子
+        if (!isPlaying || !isMyturn){
+            return;
+        }
 
         //其他位置有效
         chessMatrix[xIndex][yIndex] = isBlack?1:2;

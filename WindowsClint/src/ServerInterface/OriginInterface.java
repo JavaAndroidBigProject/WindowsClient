@@ -99,6 +99,12 @@ public abstract class OriginInterface {
 			onRespondRegister(false,"用户名和密码不得含有#或$");
 			return;
 		}
+
+		if(username.equals("empty")){
+			onRespondRegister(false,"用户名不可以是empty");
+			return;
+		}
+
 		if(!connect())
 			return;
 		writeInSocket("REGISTER#" + username + "#" +password);
@@ -266,7 +272,9 @@ public abstract class OriginInterface {
 
 	/**
 	 * 当所在游戏桌状态变化<br>
-	 * 服务器返回 ON_TABLE_CHANGE#对手用户名#对手分数#自己是否举手#对手是否举手#游戏是否进行中#棋盘的逻辑数组#自己是否执黑子#是否轮到自己下
+	 * 服务器返回 ON_TABLE_CHANGE#自己用户名#自己分数#对手用户名#对手分数#自己是否举手#对手是否举手#游戏是否进行中#棋盘的逻辑数组#自己是否执黑子#是否轮到自己下
+	 * @param myInfo
+	 * 自己的信息
 	 * @param opponentInfo
 	 * 对手信息
 	 * @param ifMyHandUp
@@ -282,13 +290,15 @@ public abstract class OriginInterface {
 	 * @param isMyTurn
 	 * 是否轮到自己下
 	 */
-	abstract public void onTableChange(PlayerInfo opponentInfo,
-	                                   boolean ifMyHandUp,
-	                                   boolean ifOpponentHandUp,
-	                                   boolean isPlaying,
-	                                   int board [][],
-	                                   boolean isBlack,
-	                                   boolean isMyTurn);
+	abstract public void onTableChange(
+										PlayerInfo myInfo,
+										PlayerInfo opponentInfo,
+										boolean ifMyHandUp,
+										boolean ifOpponentHandUp,
+										boolean isPlaying,
+										int board [][],
+										boolean isBlack,
+										boolean isMyTurn);
 
 	/**
 	 * 当游戏结束<br>
@@ -326,10 +336,9 @@ public abstract class OriginInterface {
 
 	/**
 	 * 当请求退出游戏桌响应<br>
-	 * 服务器返回 ON_RESPOND_QUIT_TABLE#退出游戏桌是否成功
-	 * @param ifAgree
-	 * 退出游戏桌是否成功
+	 * 服务器返回 ON_RESPOND_QUIT_TABLE
 	 */
-	abstract public void onRespondQuitTable(boolean ifAgree);
+	abstract public void onRespondQuitTable();
 
+	public abstract void onRespondQuitTable(boolean ifAgree);
 }

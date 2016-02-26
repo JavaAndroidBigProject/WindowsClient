@@ -144,8 +144,7 @@ public class PlayLogic extends OriginInterface{
      * @param isMyTurn
      */
     @Override
-    public void onTableChange(PlayerInfo opponentInfo, boolean ifMyHandUp, boolean ifOpponentHandUp, boolean isPlaying, int[][] board, boolean isBlack, boolean isMyTurn) {
-        PlayerInfo myInfo = new PlayerInfo(loginWindow.txtfUser.getText(),0);
+    public void onTableChange(PlayerInfo myInfo,PlayerInfo opponentInfo, boolean ifMyHandUp, boolean ifOpponentHandUp, boolean isPlaying, int[][] board, boolean isBlack, boolean isMyTurn) {
         gameWindow.resetInfo(myInfo,opponentInfo,ifMyHandUp,ifOpponentHandUp,isPlaying,board,isBlack,isMyTurn);
         gameWindow.repaint();
     }
@@ -216,8 +215,13 @@ public class PlayLogic extends OriginInterface{
     }
 
     @Override
+    public void onRespondQuitTable() {
+        JOptionPane.showMessageDialog(gameWindow,"你已经退出游戏");
+    }
+
+    @Override
     public void onRespondQuitTable(boolean ifAgree) {
-        JOptionPane.showMessageDialog(gameWindow,"对方玩家已经退出");
+        JOptionPane.showMessageDialog(gameWindow,"这是什么玩意儿" + ifAgree);
     }
 
 
