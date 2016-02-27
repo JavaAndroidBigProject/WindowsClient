@@ -74,7 +74,7 @@ public abstract class OriginInterface {
 			return true;
 		try {
 			socket = new Socket(inetAddress, port);
-			printStream = new PrintStream(socket.getOutputStream());
+			printStream = new PrintStream(socket.getOutputStream(),false,"UTF-8");
 		} catch (IOException e) {
 			e.printStackTrace();
 			onConnectionFail(e.getMessage());

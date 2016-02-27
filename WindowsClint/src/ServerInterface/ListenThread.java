@@ -29,7 +29,7 @@ class ListenThread extends Thread{
 	@Override
 	public void run(){
 		try {
-			Scanner scanner = new Scanner(socket.getInputStream());
+			Scanner scanner = new Scanner(socket.getInputStream(),"UTF-8");
 			while(scanner.hasNext()){
 				String commandsLine = scanner.nextLine();
 				String [] commands = commandsLine.split("#");
