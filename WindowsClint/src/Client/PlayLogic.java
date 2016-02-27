@@ -65,13 +65,7 @@ public class PlayLogic extends OriginInterface{
     @Override
     public void onLostConnection(String reason) {
         JOptionPane.showMessageDialog(loginWindow,"网络断开, 退出游戏, 请重新连接\n错误原因: " + reason);
-        if (registerWindow!=null)
-            registerWindow.dispose();
-        if (choiceTableWindow!=null)
-            choiceTableWindow.dispose();
-        if (gameWindow!=null)
-            gameWindow.dispose();
-        showLoginWindow();
+        System.exit(0);
     }
 
     /**
@@ -113,7 +107,6 @@ public class PlayLogic extends OriginInterface{
     }
 
     public ServerInterface.TableInfo[] getTable(){
-        //getTables();
         return this.tableInfos;
     }
 
@@ -155,7 +148,7 @@ public class PlayLogic extends OriginInterface{
      */
     @Override
     public void onTableChange(PlayerInfo myInfo,PlayerInfo opponentInfo, boolean ifMyHandUp, boolean ifOpponentHandUp, boolean isPlaying, int[][] board, boolean isBlack, boolean isMyTurn) {
-       // System.out.println(ifMyHandUp + " "+ ifOpponentHandUp);
+        //System.out.println(ifMyHandUp + " "+ ifOpponentHandUp);
         gameWindow.resetInfo(myInfo,opponentInfo,ifMyHandUp,ifOpponentHandUp,isPlaying,board,isBlack,isMyTurn);
         gameWindow.repaint();
     }

@@ -54,13 +54,13 @@ public class ChoiceTableWindow extends JFrame {
         this.add(lblNew,BorderLayout.SOUTH);
         this.setResizable(false);
         this.setVisible(true);
-        //this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 super.windowClosing(e);
                 logic.quit();
+                System.exit(0);
             }
         });
     }
@@ -72,6 +72,7 @@ public class ChoiceTableWindow extends JFrame {
             bxContainer.add(new TableInfo(logic,tableinfos[i]));
             bxContainer.add(Box.createVerticalStrut(10));
         }
+
         bxContainer.add(new TableInfo(logic,tableinfos[tableinfos.length-1]));
         scrollPane.setViewportView(bxContainer);
     }

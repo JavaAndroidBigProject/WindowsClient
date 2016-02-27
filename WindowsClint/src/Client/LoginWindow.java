@@ -2,6 +2,8 @@ package Client;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -94,6 +96,10 @@ public class LoginWindow extends JFrame {
     public void Login(){
         String username = txtfUser.getText();
         String password = String.valueOf(txtfPsw.getPassword());
+
+        btnExit.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnLogin.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
         if(!username.equals("")&& !password.equals(""))
             logic.login(username,password);
         else
@@ -106,46 +112,26 @@ public class LoginWindow extends JFrame {
      */
     public void loginEvent(){
 
-        btnExit.addMouseListener(new MouseAdapter() {
+        /**
+         * 退出按钮
+         */
+        btnExit.addActionListener(new ActionListener() {
             @Override
-            public void mousePressed(MouseEvent e) {
-                super.mousePressed(e);
+            public void actionPerformed(ActionEvent e) {
                 System.exit(0);
             }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                super.mouseEntered(e);
-                setCursor(new Cursor(Cursor.HAND_CURSOR));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                super.mouseExited(e);
-                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-            }
         });
 
-
-        btnLogin.addMouseListener(new MouseAdapter() {
+        /**
+         * 登录按钮
+         */
+        btnLogin.addActionListener(new ActionListener() {
             @Override
-            public void mousePressed(MouseEvent e) {
-                super.mousePressed(e);
+            public void actionPerformed(ActionEvent e) {
                 Login();
             }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                super.mouseEntered(e);
-                setCursor(new Cursor(Cursor.HAND_CURSOR));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                super.mouseExited(e);
-                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-            }
         });
+
 
         lblSigin.addMouseListener(new MouseAdapter() {
             @Override
