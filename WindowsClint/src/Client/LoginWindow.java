@@ -20,7 +20,7 @@ public class LoginWindow extends JFrame {
     //控件列表
     JLabel lblUser = new JLabel("用户名: ");
     JLabel lblPsw = new JLabel("密    码: ");
-    JLabel lblSigin = new JLabel("新用户?点击注册");
+    JLabel lblSigin = new JLabel("新用户?点击注册  ");
     //JLabel lblFindPsw = new JLabel("密码找回");
     JTextField txtfUser = new JTextField(25);
     JPasswordField txtfPsw = new JPasswordField(25);

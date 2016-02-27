@@ -5,6 +5,7 @@ import ServerInterface.*;
 import ServerInterface.TableInfo;
 
 import javax.swing.*;
+import javax.swing.text.html.Option;
 import java.net.InetAddress;
 
 
@@ -82,12 +83,13 @@ public class PlayLogic extends OriginInterface{
      */
     @Override
     public void onRespondLogin(boolean ifLogined, int score, String reason) {
-        System.out.println(ifLogined + "  " + score + " " + reason);
+        //System.out.println(ifLogined + "  " + score + " " + reason);
         if(!ifLogined){
             JOptionPane.showMessageDialog(loginWindow,"登录失败: "+reason);
         }
         else {
-            this.getTables();
+           // this.getTables();
+
         }
     }
 
@@ -103,7 +105,7 @@ public class PlayLogic extends OriginInterface{
     }
 
     public ServerInterface.TableInfo[] getTable(){
-        getTables();
+        //getTables();
         return this.tableInfos;
     }
 
@@ -176,9 +178,15 @@ public class PlayLogic extends OriginInterface{
         }
 
         JOptionPane.showMessageDialog(gameWindow,str);
-        this.quitTable();
-        gameWindow.dispose();
-        showChoiceTableWindow();
+        if (JOptionPane.showConfirmDialog(gameWindow,"再来一局!","提示", JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE) == JOptionPane.OK_OPTION){
+            // 如果再来一句, 不做处理, 静候OnTableChange 消息
+        }
+        else{
+            this.quitTable();
+            gameWindow.dispose();
+            showChoiceTableWindow();
+        }
+
     }
 
     /**
@@ -217,11 +225,6 @@ public class PlayLogic extends OriginInterface{
     @Override
     public void onRespondQuitTable() {
         JOptionPane.showMessageDialog(gameWindow,"你已经退出游戏");
-    }
-
-    @Override
-    public void onRespondQuitTable(boolean ifAgree) {
-        JOptionPane.showMessageDialog(gameWindow,"这是什么玩意儿" + ifAgree);
     }
 
 
@@ -288,6 +291,7 @@ public class PlayLogic extends OriginInterface{
         }
         else
             choiceTableWindow = new ChoiceTableWindow(this);
+        choiceTableWindow.addTable(tableInfos);
     }
 
     /**
@@ -295,5 +299,6 @@ public class PlayLogic extends OriginInterface{
      */
     public void hideChoiceTableWindow(){
         choiceTableWindow.dispose();
+        choiceTableWindow = null;
     }
 }

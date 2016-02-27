@@ -1,10 +1,15 @@
 package Client;
 
 import ServerInterface.PlayerInfo;
+import javafx.scene.image.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Image;
 import java.awt.geom.Ellipse2D;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageFilter;
+import java.awt.image.ImageObserver;
 
 /**
  * Created by zhaokuo on 2016/2/22.
@@ -31,6 +36,8 @@ public class InformationPanel extends JPanel {
     private boolean isMyTurn;
     private PlayerInfo myInfo;
     private PlayerInfo matchInfo;
+    private boolean isMeHandup;
+    private boolean isMatchHandup;
     /**
      * 更新信息
      * @param isBlack
@@ -38,11 +45,13 @@ public class InformationPanel extends JPanel {
      * @param myInfo
      * @param matchInfo
      */
-    public void updateInfo(boolean isBlack,boolean isMyTurn, PlayerInfo myInfo, PlayerInfo matchInfo){
+    public void updateInfo(boolean isBlack,boolean isMyTurn, PlayerInfo myInfo, PlayerInfo matchInfo, boolean isMeHandup, boolean isMatchHandup){
         this.isBlack = isBlack;
         this.isMyTurn = isMyTurn;
         this.myInfo = myInfo;
         this.matchInfo = matchInfo;
+        this.isMeHandup = isMeHandup;
+        this.isMatchHandup = isMatchHandup;
         repaint();
     }
 
@@ -81,46 +90,42 @@ public class InformationPanel extends JPanel {
         super.paint(g);
         if(matchInfo != null){
             lblmatchId.setText("对方: " + matchInfo.name);
-            lblmatchScore.setText(String.valueOf(matchInfo.score));
+            lblmatchScore.setText(String.valueOf("   "+matchInfo.score));
         }
 
         if (myInfo != null){
             lblmyId.setText("宝宝: " + myInfo.name);
-            lblmyScore.setText(String.valueOf(matchInfo.score));
+            lblmyScore.setText(String.valueOf("   "+myInfo.score));
+        }
+
+        if (isMeHandup){
+            g.drawImage(new ImageIcon("src\\handup.png").getImage(),20,410, null);
+        }
+
+        if (isMatchHandup){
+            g.drawImage(new ImageIcon("src\\handup.png").getImage(),20,150, null);
         }
 
 
         //画棋子颜色
         if(isBlack){
-            //lblmatchScore.setBackground(Color.white);
-            g.setColor(Color.white);
-            Ellipse2D e = new Ellipse2D.Float((float)lctMatchColor.getX(),(float)lctMatchColor.getY(),DIAME,DIAME);
-            ((Graphics2D) g).fill(e);
-            //lblmyColor.setBackground(Color.black);
-            g.setColor(Color.black);
-            e = new Ellipse2D.Float((float)lctMyColor.getX(),(float)lctMyColor.getY(),DIAME,DIAME);
-            ((Graphics2D) g).fill(e);
+            Globle.painChess(g,Color.white,lctMatchColor.x,lctMatchColor.y+10);
+            Globle.painChess(g, Color.black, lctMyColor.x, lctMyColor.y+10);
         }
         else{
-            //lblmatchScore.setBackground(Color.white);
-            g.setColor(Color.black);
-            Ellipse2D e = new Ellipse2D.Float((float)lctMatchColor.getX(),(float)lctMatchColor.getY(),DIAME,DIAME);
-            ((Graphics2D) g).fill(e);
-            //lblmyColor.setBackground(Color.black);
-            g.setColor(Color.white);
-            e = new Ellipse2D.Float((float)lctMyColor.getX(),(float)lctMyColor.getY(),DIAME,DIAME);
-            ((Graphics2D) g).fill(e);
+            Globle.painChess(g,Color.black,lctMatchColor.x,lctMatchColor.y+10);
+            Globle.painChess(g, Color.white, lctMyColor.x, lctMyColor.y+10);
         }
+
         if (isMyTurn){
-            //lblmyRun.setBackground(Color.green);
             g.setColor(Color.green);
-            Ellipse2D e = new Ellipse2D.Float((float)lctMyRun.getX(),(float)lctMyRun.getY(),DIAME,DIAME);
+            Ellipse2D e = new Ellipse2D.Float((float)lctMyRun.getX()-10,(float)lctMyRun.getY(),DIAME,DIAME);
             ((Graphics2D) g).fill(e);
         }
         else{
             //lblmatchRun.setBackground(Color.green);
             g.setColor(Color.green);
-            Ellipse2D e = new Ellipse2D.Float((float)lctMatchRun.getX(),(float)lctMatchRun.getY(),DIAME,DIAME);
+            Ellipse2D e = new Ellipse2D.Float((float)lctMatchRun.getX()-10,(float)lctMatchRun.getY(),DIAME,DIAME);
             ((Graphics2D) g).fill(e);
         }
     }

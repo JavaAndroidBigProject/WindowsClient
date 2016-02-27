@@ -1,5 +1,6 @@
 package ServerInterface;
 
+import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -9,17 +10,28 @@ import java.util.Scanner;
 class ListenThread extends Thread{
 	Socket socket;
 	OriginInterface originInterface;
+	boolean ifNeedClose = false;
+
 	public ListenThread(Socket socket, OriginInterface originInterface){
 		this.socket = socket;
 		this.originInterface = originInterface;
 	}
+
+	public void discontect(){
+		ifNeedClose = true;
+		try {
+			socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	@Override
 	public void run(){
 		try {
 			Scanner scanner = new Scanner(socket.getInputStream());
 			while(scanner.hasNext()){
 				String commandsLine = scanner.nextLine();
-				System.out.println(commandsLine);
 				String [] commands = commandsLine.split("#");
 				switch (commands[0]){
 					case "ON_RESPOND_REGISTER":
@@ -71,6 +83,9 @@ class ListenThread extends Thread{
 					default:
 						throw new Exception("Wrong command:" + commandsLine);
 				}
+			}
+			if(!ifNeedClose){
+				throw new Exception("失去和服务器的连接");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -14,7 +14,7 @@ public class ChoiceTableWindow extends JFrame {
     PlayLogic logic;
     ServerInterface.TableInfo[] tableInfos;
 
-    Box bxContainer = Box.createVerticalBox();
+    //Box bxContainer;
     JScrollPane scrollPane = new JScrollPane();
     JLabel lblTitle = new JLabel("选择座位");
     JLabel lblNew = new JLabel("+");
@@ -55,7 +55,8 @@ public class ChoiceTableWindow extends JFrame {
     }
 
     public void addTable(ServerInterface.TableInfo[] tableinfos){
-
+        //bxContainer = null;
+        Box bxContainer = Box.createVerticalBox();
         for(int i = 0; i < tableinfos.length; i++){
             System.out.println(tableinfos[i].id + "--" + tableinfos[i].player1.name +":"+ tableinfos[i].player2.name);
             bxContainer.add(new TableInfo(logic,tableinfos[i]));

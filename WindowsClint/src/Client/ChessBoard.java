@@ -141,41 +141,14 @@ public class ChessBoard extends JPanel implements MouseListener,KeyListener {
                 if(chessMatrix[i][j] != 0){
                     int xPos = (int)i*GRID_SPAN+MARGIN;
                     int yPos = (int)j*GRID_SPAN+MARGIN;
+                    //1 是黑
                     if (chessMatrix[i][j] == 1){
-                        RadialGradientPaint paint = new RadialGradientPaint(
-                                xPos-this.DIAMETER/2+25,
-                                yPos-this.DIAMETER/2+10,
-                                20,
-                                new float[]{0f,1f},
-                                new Color[]{Color.WHITE,Color.BLACK});
-
-                        ((Graphics2D) g).setPaint(paint);
-                        //warning 可能有错
-                        ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON );
-                        ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION,RenderingHints.VALUE_ALPHA_INTERPOLATION_DEFAULT);
+                        Globle.painChess(g,Color.black,xPos,yPos);
                     }
+                    //2 是白
                     else if(chessMatrix[i][j]==2){
-                        RadialGradientPaint paint = new RadialGradientPaint(
-                                xPos-this.DIAMETER/2+25,
-                                yPos-this.DIAMETER/2+10,
-                                70,
-                                new float[]{0f,1f},
-                                new Color[]{Color.WHITE,Color.BLACK});
-
-                        ((Graphics2D) g).setPaint(paint);
-                        //warning 可能有错
-                        ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON );
-                        ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION,RenderingHints.VALUE_ALPHA_INTERPOLATION_DEFAULT );
+                        Globle.painChess(g,Color.white,xPos,yPos);
                     }
-
-                    Ellipse2D e = new Ellipse2D.Float(
-                            xPos - this.DIAMETER/2,
-                            yPos - this.DIAMETER/2,
-                            this.DIAMETER-2,
-                            this.DIAMETER-2
-                    );
-
-                    ((Graphics2D) g).fill(e);
 
                     redRect(redX,redY,g);
                 }

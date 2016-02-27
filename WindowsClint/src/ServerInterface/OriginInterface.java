@@ -36,7 +36,12 @@ public abstract class OriginInterface {
 	/**
 	 * 监听服务器消息线程
 	 */
-	private ListenThread listenThread;
+	ListenThread listenThread;
+
+	/**
+	 * 发送请求桌面状态的心跳包线程
+	 */
+	GettingTablesThread gettingTablesThread;
 
 	/**
 	 * 构造函数
@@ -48,6 +53,15 @@ public abstract class OriginInterface {
 	public OriginInterface(InetAddress inetAddress, int port){
 		this.inetAddress = inetAddress;
 		this.port = port;
+	}
+
+	/**
+	 * 退出游戏,将正常断开与服务器连接
+	 */
+	private void quit(){
+		if(listenThread != null && listenThread.isAlive()){
+			listenThread.discontect();
+		}
 	}
 
 	/**
@@ -68,6 +82,8 @@ public abstract class OriginInterface {
 		}
 		listenThread = new ListenThread(socket, this);
 		listenThread.start();
+		gettingTablesThread = new GettingTablesThread(this);
+		gettingTablesThread.start();
 		return true;
 	}
 
@@ -131,11 +147,12 @@ public abstract class OriginInterface {
 	/**
 	 * 请求所有游戏桌状态<br>
 	 * 向服务器发送 GET_TABLES
+	 * 继承者不要调用
 	 */
-	final public void getTables(){
+	final void getTables(){
 		writeInSocket("GET_TABLES");
 	}
-
+	
 	/**
 	 * 请求进入游戏桌<br>
 	 * 向服务器发送 ENTER_TABLES#游戏桌编号
@@ -340,5 +357,4 @@ public abstract class OriginInterface {
 	 */
 	abstract public void onRespondQuitTable();
 
-	public abstract void onRespondQuitTable(boolean ifAgree);
 }
