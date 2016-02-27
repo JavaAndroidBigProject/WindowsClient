@@ -19,15 +19,14 @@ public class InformationPanel extends JPanel {
     JLabel lblmatchId = new JLabel("对方:");
     JLabel lblmatchScore = new JLabel("");
 
-    Point lctMatchColor = new Point(40,90);
-    Point lctMatchRun = new Point(40,120);
+    Point lctMatchColor = new Point(40,100);
+    Point lctMatchRun = new Point(40,130);
 
     //自己
     JLabel lblmyId = new JLabel("宝宝:");
     JLabel lblmyScore = new JLabel("是");
-    //JLabel lblmyRun = new JLabel(" O ");
-    Point lctMyColor = new Point(40,350);
-    Point lctMyRun = new Point(40,380) ;
+    Point lctMyColor = new Point(40,370);
+    Point lctMyRun = new Point(40,400) ;
 
     Box bxContainer = Box.createVerticalBox();
     final int DIAME = 20;
@@ -96,11 +95,11 @@ public class InformationPanel extends JPanel {
         }
 
         if (isMeHandup){
-            g.drawImage(new ImageIcon("src\\handup.png").getImage(),20,410, null);
+            g.drawImage(new ImageIcon(getClass().getResource("handup.png")).getImage(),20,420, null);
         }
 
         if (isMatchHandup){
-            g.drawImage(new ImageIcon("src\\handup.png").getImage(),20,150, null);
+            g.drawImage(new ImageIcon(getClass().getResource("handup.png")).getImage(),20,150, null);
         }
 
 

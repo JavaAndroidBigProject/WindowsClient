@@ -193,7 +193,7 @@ public class PlayLogic extends OriginInterface{
         String str = "同意";
         if (!ifAgree)
             str = "不同意";
-        gameWindow.txtChatHis.append("[系统消息]: 对手["+str+"]悔棋请求!");
+        gameWindow.txtChatHis.append("[系统消息]: 对手["+str+"]悔棋请求!\n");
     }
 
     /**
