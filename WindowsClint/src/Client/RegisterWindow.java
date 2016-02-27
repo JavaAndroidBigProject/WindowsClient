@@ -60,7 +60,7 @@ public class RegisterWindow extends JFrame {
         bxBtn.add(Box.createHorizontalStrut(20));
         bxBtn.add(btnCancle);
 
-        bxAll.add(Box.createVerticalStrut(30));
+        bxAll.add(Box.createVerticalStrut(50));
         bxAll.add(bxUser);
         bxAll.add(Box.createVerticalStrut(15));
         bxAll.add(bxPsw);
@@ -68,7 +68,7 @@ public class RegisterWindow extends JFrame {
         bxAll.add(bxEmail);
         bxAll.add(Box.createVerticalStrut(15));
         bxAll.add(bxBtn);
-        bxAll.add(Box.createVerticalStrut(30));
+        bxAll.add(Box.createVerticalStrut(50));
         this.add(bxAll);
 
         Toolkit tool = Toolkit.getDefaultToolkit();

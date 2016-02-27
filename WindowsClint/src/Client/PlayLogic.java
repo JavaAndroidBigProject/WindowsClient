@@ -71,7 +71,7 @@ public class PlayLogic extends OriginInterface{
             choiceTableWindow.dispose();
         if (gameWindow!=null)
             gameWindow.dispose();
-        loginWindow.setVisible(true);
+        showLoginWindow();
     }
 
     /**
@@ -155,7 +155,7 @@ public class PlayLogic extends OriginInterface{
      */
     @Override
     public void onTableChange(PlayerInfo myInfo,PlayerInfo opponentInfo, boolean ifMyHandUp, boolean ifOpponentHandUp, boolean isPlaying, int[][] board, boolean isBlack, boolean isMyTurn) {
-        System.out.println(ifMyHandUp + " "+ ifOpponentHandUp);
+       // System.out.println(ifMyHandUp + " "+ ifOpponentHandUp);
         gameWindow.resetInfo(myInfo,opponentInfo,ifMyHandUp,ifOpponentHandUp,isPlaying,board,isBlack,isMyTurn);
         gameWindow.repaint();
     }
@@ -260,8 +260,10 @@ public class PlayLogic extends OriginInterface{
      * 隐藏登录窗口
      */
     public void hideLoginWindow(){
-        if (loginWindow != null)
-            loginWindow.setVisible(false);
+//        if (loginWindow != null)
+//            loginWindow.setVisible(false);
+        loginWindow.dispose();
+        loginWindow = null;
     }
 
     /**

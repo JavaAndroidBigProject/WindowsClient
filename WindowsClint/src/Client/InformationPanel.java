@@ -80,7 +80,7 @@ public class InformationPanel extends JPanel {
 //        bxContainer.add(lblmyRun);
         bxContainer.add(Box.createVerticalStrut(30));
 
-        System.out.println(lctMatchColor.getX());
+        //System.out.println(lctMatchColor.getX());
 
         this.add(bxContainer);
     }

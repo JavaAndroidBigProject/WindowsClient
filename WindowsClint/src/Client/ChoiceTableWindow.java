@@ -2,6 +2,9 @@ package Client;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import ServerInterface.*;
 
 /**
@@ -51,7 +54,15 @@ public class ChoiceTableWindow extends JFrame {
         this.add(lblNew,BorderLayout.SOUTH);
         this.setResizable(false);
         this.setVisible(true);
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        //this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                logic.quit();
+            }
+        });
     }
 
     public void addTable(ServerInterface.TableInfo[] tableinfos){

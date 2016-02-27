@@ -58,7 +58,7 @@ public abstract class OriginInterface {
 	/**
 	 * 退出游戏,将正常断开与服务器连接
 	 */
-	private void quit(){
+	public void quit(){
 		if(listenThread != null && listenThread.isAlive()){
 			listenThread.discontect();
 		}
