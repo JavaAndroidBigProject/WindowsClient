@@ -60,7 +60,7 @@ public class RegisterWindow extends JFrame {
         bxBtn.add(Box.createHorizontalStrut(20));
         bxBtn.add(btnCancle);
 
-        bxAll.add(Box.createVerticalStrut(80));
+        bxAll.add(Box.createVerticalStrut(30));
         bxAll.add(bxUser);
         bxAll.add(Box.createVerticalStrut(15));
         bxAll.add(bxPsw);

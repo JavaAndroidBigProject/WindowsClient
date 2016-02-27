@@ -7,10 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 /**
  * Created by zhaokuo on 2016/01/19.
@@ -52,6 +49,7 @@ public class GameWindow extends JFrame{
         this.board = board;
         this.isBlack = isBlack;
         this.isMyTurn = isMyTurn;
+        this.setResizable(false);
         pnlInfo.updateInfo(isBlack,isMyTurn,myInfo,opponentInfo,ifMyHandUp,ifOpponentHandUp);
         chessBoard.updateBoard(board,isBlack,isPlaying,isMyTurn);
     }
@@ -66,7 +64,7 @@ public class GameWindow extends JFrame{
         int width = 850;
         int hight = 700;
         this.setBounds((w-width)/2, (h-hight)/2, width, hight);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout(10,10));
         initWidget();
         initLayout();
@@ -116,6 +114,7 @@ public class GameWindow extends JFrame{
         txtChatHis.setEditable(false);
         txtchat.setFocusable(true);
         txtchat.requestFocus();
+        txtChatHis.setFont(new Font("宋体",1,16));
     }
 
     /**
@@ -178,7 +177,7 @@ public class GameWindow extends JFrame{
                     txtChatHis.append("[提示] 字符串中不能包含 # 符号");
                 }
                 else{
-                    txtChatHis.append(txtchat.getText()+"\n");
+                    txtChatHis.append("宝宝: " + txtchat.getText()+"\n");
                     logic.sengMessage(txtchat.getText());
                     txtchat.setText("");
                 }
@@ -217,7 +216,7 @@ public class GameWindow extends JFrame{
         btnExit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (JOptionPane.showConfirmDialog(btnExit,"是否退出当前桌子","确认",JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION){
+                if (JOptionPane.showConfirmDialog(GameWindow.this,"是否退出当前桌子","确认",JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION){
                     logic.quitTable();
                     dispose();
                     logic.showChoiceTableWindow();
@@ -233,6 +232,45 @@ public class GameWindow extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 txtChatHis.append("[我] 举手....\n");
                 logic.handUp();
+            }
+        });
+
+        this.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                logic.quitTable();
+                GameWindow.this.dispose();
+                logic.showChoiceTableWindow();
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowActivated(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+
             }
         });
 

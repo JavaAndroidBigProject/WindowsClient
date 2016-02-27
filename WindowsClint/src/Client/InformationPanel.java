@@ -89,13 +89,13 @@ public class InformationPanel extends JPanel {
     public void paint(Graphics g) {
         super.paint(g);
         if(matchInfo != null){
-            lblmatchId.setText("对方: " + matchInfo.name);
-            lblmatchScore.setText(String.valueOf("   "+matchInfo.score));
+            lblmatchId.setText("对手: " + matchInfo.name);
+            lblmatchScore.setText(String.valueOf("积分:"+matchInfo.score));
         }
 
         if (myInfo != null){
             lblmyId.setText("宝宝: " + myInfo.name);
-            lblmyScore.setText(String.valueOf("   "+myInfo.score));
+            lblmyScore.setText(String.valueOf("积分:"+myInfo.score));
         }
 
         if (isMeHandup){

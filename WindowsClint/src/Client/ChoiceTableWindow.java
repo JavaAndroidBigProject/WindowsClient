@@ -20,7 +20,7 @@ public class ChoiceTableWindow extends JFrame {
     JLabel lblNew = new JLabel("+");
 
     final int width = 250;
-    final int hight = 400;
+    final int hight = 450;
 
     public ChoiceTableWindow(PlayLogic logic){
         this.logic = logic;
@@ -39,17 +39,17 @@ public class ChoiceTableWindow extends JFrame {
         lblTitle.setFont(new Font("微软雅黑",0,20));
         lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 
-        lblNew.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        lblNew.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
         lblNew.setForeground(Color.BLUE);
         lblNew.setFont(new Font("微软雅黑", 0, 30));
         lblNew.setHorizontalAlignment(SwingConstants.CENTER);
 
-        addTable(tableInfos);
+        //addTable(tableInfos);
 
         this.add(lblTitle,BorderLayout.NORTH);
         this.add(scrollPane);
         this.add(lblNew,BorderLayout.SOUTH);
-        //this.setResizable(false);
+        this.setResizable(false);
         this.setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
@@ -57,11 +57,11 @@ public class ChoiceTableWindow extends JFrame {
     public void addTable(ServerInterface.TableInfo[] tableinfos){
         //bxContainer = null;
         Box bxContainer = Box.createVerticalBox();
-        for(int i = 0; i < tableinfos.length; i++){
-            System.out.println(tableinfos[i].id + "--" + tableinfos[i].player1.name +":"+ tableinfos[i].player2.name);
+        for(int i = 0; i < tableinfos.length-1; i++){
             bxContainer.add(new TableInfo(logic,tableinfos[i]));
             bxContainer.add(Box.createVerticalStrut(10));
         }
+        bxContainer.add(new TableInfo(logic,tableinfos[tableinfos.length-1]));
         scrollPane.setViewportView(bxContainer);
     }
 }

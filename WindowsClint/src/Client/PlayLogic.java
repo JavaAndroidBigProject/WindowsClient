@@ -23,7 +23,8 @@ public class PlayLogic extends OriginInterface{
     ChoiceTableWindow choiceTableWindow = null;
     RegisterWindow registerWindow = null;
     GameWindow gameWindow = null;
-    public ServerInterface.TableInfo[] tableInfos;
+    private boolean isLogin = false;
+    public ServerInterface.TableInfo[] tableInfos = null;
 
 
     public PlayLogic(InetAddress inetAddress, int port) {
@@ -86,10 +87,11 @@ public class PlayLogic extends OriginInterface{
         //System.out.println(ifLogined + "  " + score + " " + reason);
         if(!ifLogined){
             JOptionPane.showMessageDialog(loginWindow,"登录失败: "+reason);
+            showLoginWindow();
         }
         else {
-           // this.getTables();
-
+            hideLoginWindow();
+            this.isLogin = ifLogined;
         }
     }
 
@@ -99,9 +101,15 @@ public class PlayLogic extends OriginInterface{
      */
     @Override
     public void onRespondGetTables(ServerInterface.TableInfo[] tableInfos) {
-        this.tableInfos = tableInfos;
-        hideLoginWindow();
-        showChoiceTableWindow();
+        if (isLogin){
+            if (choiceTableWindow != null){
+                choiceTableWindow.addTable(tableInfos);
+            }
+            if (choiceTableWindow == null){
+                newChoiceTableWindow();
+            }
+        }
+
     }
 
     public ServerInterface.TableInfo[] getTable(){
@@ -147,6 +155,7 @@ public class PlayLogic extends OriginInterface{
      */
     @Override
     public void onTableChange(PlayerInfo myInfo,PlayerInfo opponentInfo, boolean ifMyHandUp, boolean ifOpponentHandUp, boolean isPlaying, int[][] board, boolean isBlack, boolean isMyTurn) {
+        System.out.println(ifMyHandUp + " "+ ifOpponentHandUp);
         gameWindow.resetInfo(myInfo,opponentInfo,ifMyHandUp,ifOpponentHandUp,isPlaying,board,isBlack,isMyTurn);
         gameWindow.repaint();
     }
@@ -178,15 +187,6 @@ public class PlayLogic extends OriginInterface{
         }
 
         JOptionPane.showMessageDialog(gameWindow,str);
-        if (JOptionPane.showConfirmDialog(gameWindow,"再来一局!","提示", JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE) == JOptionPane.OK_OPTION){
-            // 如果再来一句, 不做处理, 静候OnTableChange 消息
-        }
-        else{
-            this.quitTable();
-            gameWindow.dispose();
-            showChoiceTableWindow();
-        }
-
     }
 
     /**
@@ -200,7 +200,7 @@ public class PlayLogic extends OriginInterface{
         String str = "同意";
         if (!ifAgree)
             str = "不同意";
-        gameWindow.txtChatHis.append("[系统消息]: 对方["+str+"]悔棋请求!");
+        gameWindow.txtChatHis.append("[系统消息]: 对手["+str+"]悔棋请求!");
     }
 
     /**
@@ -282,23 +282,25 @@ public class PlayLogic extends OriginInterface{
             gameWindow.dispose();
     }
 
+
+    public void newChoiceTableWindow(){
+        choiceTableWindow = new ChoiceTableWindow(this);
+    }
     /**
      * 显示选桌窗口
      */
     public void showChoiceTableWindow(){
-        if (choiceTableWindow != null){
-            choiceTableWindow.setVisible(true);
+        if (choiceTableWindow  == null){
+            newChoiceTableWindow();
         }
         else
-            choiceTableWindow = new ChoiceTableWindow(this);
-        choiceTableWindow.addTable(tableInfos);
+            choiceTableWindow.setVisible(true);
     }
 
     /**
      * 隐藏选桌窗口
      */
     public void hideChoiceTableWindow(){
-        choiceTableWindow.dispose();
-        choiceTableWindow = null;
+        choiceTableWindow.setVisible(false);
     }
 }
