@@ -278,6 +278,9 @@ public class PlayLogic extends OriginInterface{
     }
 
 
+    /**
+     * 创建大厅窗口
+     */
     public void newChoiceTableWindow(){
         choiceTableWindow = new ChoiceTableWindow(this);
     }

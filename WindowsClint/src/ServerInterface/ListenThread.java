@@ -80,6 +80,8 @@ class ListenThread extends Thread{
 					case "ON_RESPOND_QUIT_TABLE":
 						originInterface.onRespondQuitTable();
 						break;
+					case "TEST":
+						break;
 					default:
 						throw new Exception("Wrong command:" + commandsLine);
 				}

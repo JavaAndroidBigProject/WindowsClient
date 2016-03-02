@@ -230,7 +230,7 @@ public class GameWindow extends JFrame{
         btnHandUp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                txtChatHis.append("[我] 举手....\n");
+               // txtChatHis.append("[我] 举手....\n");
                 logic.handUp();
             }
         });
